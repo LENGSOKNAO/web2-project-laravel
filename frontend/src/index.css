@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+.flex-between {
+  @apply flex justify-between items-center;
+}
+
+/* nav screen small */
+
+.bg-listnav {
+  @apply absolute right-0 w-[40vw] bg-[#ffffff]  top-0 h-screen;
+}
+.item-list {
+  @apply text-sm flex flex-col gap-[15px];
+}
+.item-nav {
+  @apply text-xl font-normal px-[20px];
+}
+.bg-hover {
+  @apply hover:bg-[rgba(0,0,0,0.2)];
+}
+.text-hover {
+  @apply hover:text-[rgba(0,0,0,0.7)];
+}
+.btn-color {
+  @apply bg-[#eae9e9];
+}
+.text-color {
+  @apply text-[#726363];
+}
+
+/* nav full screen */
+
+.list-nav-full-screen {
+  @apply absolute top-[0] right-0 left-0 py-[70px] border-b-[1px] z-[-1] bg-[#ffffff];
+}
+.t {
+  @apply font-medium text-lg;
+}
+
+/* footer */
+
+.f {
+  @apply text-xl font-semibold;
+}
+
+.list-footer {
+  @apply text-sm;
+}
+.iconHover {
+  @apply hover:text-[#5b5858] text-[#3e3a3a];
+}

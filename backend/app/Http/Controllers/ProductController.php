@@ -7,7 +7,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function showData()
+    public function show()
     {
         return response()->json(Product::all());
     }
@@ -70,11 +70,7 @@ class ProductController extends Controller
     }
 
     // Show a single product
-    public function show($id)
-    {
-        $product = Product::findOrFail($id);
-        return response()->json($product, 200);
-    }
+  
 
     // Update a product
     public function update(Request $request, Product $product)

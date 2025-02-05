@@ -1,0 +1,51 @@
+export const DataProduct = [
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+  {
+    id: "1",
+    name: "Air Jordan 1",
+    image: "/src/assets/Product/productnike.png",
+    category: "Shoes",
+    price: "$120",
+  },
+];
