@@ -10,12 +10,13 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'category', 'price', 'sizes', 'image', 'images', 'qty', 'description'
+        'name', 'category', 'price', 'sizes', 'image', 'images', 'qty', 'description' ,'brand'
     ];
 
     protected $casts = [
-        'sizes' => 'array', // Convert JSON to array
-        'images' => 'array', // Convert JSON to array
+        'category' => 'array',  
+        'sizes' => 'array',  
+        'images' => 'array',  
     ];
     
 }

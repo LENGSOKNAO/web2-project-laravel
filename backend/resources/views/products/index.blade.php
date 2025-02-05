@@ -125,54 +125,57 @@
         </div>
 
         <!-- Display all products -->
-        @if($products->count() > 0)
-            <table>
-                <thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Sizes</th>
+                    <th>Quantity</th>
+                    <th>Main Image</th>
+                    <th>Description</th>
+                    <th>Brand</th> <!-- Add the brand column -->
+                    <th>Actions</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($products as $product)
                     <tr>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Sizes</th>
-                        <th>Quantity</th>
-                        <th>Main Image</th>
-                        <th>description</th>
-                        <th>Actions</th>
-                        <th>Actions</th>
+                        <td>{{ $product->name }}</td>                 
+                        <td>
+                            @foreach(explode(',', $product->category) as $category)
+                                {{ $category }},
+                            @endforeach
+                        </td>
+                        
+                        <td>${{ number_format($product->price, 2) }}</td>
+                        <td>
+                            @foreach(json_decode($product->sizes, true) as $size)
+                                {{ $size }},
+                            @endforeach
+                        </td>
+                        
+                        <td>{{ $product->qty }}</td> 
+                        <td><img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}"></td>
+                        <td>{{ $product->description }}</td>
+                        <td>{{ $product->brand }}</td> <!-- Add brand to table row -->
+                        <td class="actions">
+                            <a href="{{ route('products.edit', $product->id) }}">Edit</a>
+                        </td>
+                        <td class="actions">
+                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach($products as $product)
-                        <tr>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product->category }}</td>
-                       
-                            <td>${{ number_format($product->price, 2) }}</td>
-                            <td>
-                                @foreach($product->sizes as $size)
-                                    {{ $size }},
-                                @endforeach
-                            </td>
-                            <td>{{ $product->qty }}</td> 
-                            <td><img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}"></td>
-                            <td>{{ $product->description }}</td>
-                            <td class="actions ">
-                                <a href="{{ route('products.edit', $product->id) }}">Edit</a>
-                            </td>
-                            <td class="actions ">
-                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">Delete</button>
-                                </form>
-
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <p class="no-products">No products available.</p>
-        @endif
+                @endforeach
+            </tbody>
+        </table>
+        
     </div>
 
 </body>

@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('category');
+            $table->string('brand');
             $table->decimal('price', 10, 2);
             $table->json('sizes')->nullable(); // Store sizes as a JSON array
             $table->string('image'); // Single image

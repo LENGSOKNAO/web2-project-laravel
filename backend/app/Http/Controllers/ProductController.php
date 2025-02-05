@@ -27,58 +27,56 @@ class ProductController extends Controller
         return view('products.edit', compact('product'));
     } 
     
-    // Store a new product
     public function store(Request $request)
     {
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+            'category' => 'required|array|min:1',  // Make sure it's an array with at least one category
+            'brand' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'sizes' => 'nullable|array',
-            'image' => 'required|image ',
+            'image' => 'nullable|image',
             'images.*' => 'nullable|image',
             'qty' => 'required|integer|min:0',
             'description' => 'nullable|string',
         ]);
-
+    
         // Upload single image
-        $imagePath = $request->file('image')->store('products', 'public');
-
+        $imagePath = $request->file('image') ? $request->file('image')->store('products', 'public') : null;
+    
         // Upload multiple images (if any)
         $imagePaths = [];
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
+            $images = is_array($request->file('images')) ? $request->file('images') : [$request->file('images')]; // Ensure it's an array
+            foreach ($images as $image) {
                 $imagePaths[] = $image->store('products', 'public');
             }
         }
-
+    
         // Create product in the database
         $product = Product::create([
             'name' => $request->name,
-            'category' => $request->category,
+            'category' => implode(',', $request->category),  // Join array into a string
+            'brand' => $request->brand,  // Save brand
             'price' => $request->price,
-            'sizes' => $request->sizes,
+            'sizes' => is_array($request->sizes) ? json_encode($request->sizes) : $request->sizes,  // Ensure sizes are stored as JSON if array
             'image' => $imagePath,
-            'images' => $imagePaths,
+            'images' => !empty($imagePaths) ? json_encode($imagePaths) : '[]',  // Ensure images are stored as JSON if array
             'qty' => $request->qty,
             'description' => $request->description,
         ]);
-
-        // Return the created product as JSON response
-       return redirect()->route('products.index')->with('success', 'Product created successfully!');
+    
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
-
-    // Show a single product
-  
-
-    // Update a product
+    
     public function update(Request $request, Product $product)
     {
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+            'category' => 'required|array|min:1',  // Ensure category is an array and at least one category is selected
+            'brand' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'sizes' => 'nullable|array',
             'image' => 'nullable|image',  // Make image optional
@@ -86,7 +84,7 @@ class ProductController extends Controller
             'qty' => 'required|integer|min:0',
             'description' => 'nullable|string',
         ]);
-        
+    
         // Update main image if provided
         if ($request->hasFile('image')) {
             $product->image = $request->file('image')->store('images', 'public');
@@ -98,28 +96,26 @@ class ProductController extends Controller
             foreach ($request->file('images') as $image) {
                 $imagePaths[] = $image->store('images', 'public');
             }
-            $product->images = $imagePaths; // Directly assign the array (will be cast to JSON automatically)
+            $product->images = !empty($imagePaths) ? json_encode($imagePaths) : '[]'; // Assign as JSON
         }
     
         // Update other fields using fill method (ensures mass-assignment protection)
         $product->fill([
             'name' => $request->name,
-            'category' => $request->category,
+            'brand' => $request->brand,
+            'category' => implode(',', $request->category),  // Join array into a string
             'price' => $request->price,
-            'sizes' => $request->sizes ?? [],
+            'sizes' => is_array($request->sizes) ? json_encode($request->sizes) : $request->sizes,  // Store sizes as JSON if array
             'qty' => $request->qty,
             'description' => $request->description,
         ]);
     
         // Save the product
         $product->save();
-        
-        return redirect()->route('products.index')->with('success', 'Product updated successfully');
+    
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
     
-    
-    
-
     // Delete a product
     public function destroy($id)
     {

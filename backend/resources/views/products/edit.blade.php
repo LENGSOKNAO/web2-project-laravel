@@ -85,50 +85,72 @@
         <div class="create-btn">
             <a href="{{ route('products.index') }}">Dashboard</a>
         </div>
-
         <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-
+        
+            <!-- Product Name -->
             <label for="name">Name</label>
             <input type="text" name="name" value="{{ $product->name }}" required>
-
+        
+            <!-- Category -->
             <label for="category">Category</label>
-            <input type="text" name="category" value="{{ $product->category }}" required>
-
+            <select name="category[]" multiple required>
+                @php
+                    $categories = explode(',', $product->category);
+                @endphp
+                <option value="men" {{ in_array('men', $categories) ? 'selected' : '' }}>Men</option>
+                <option value="women" {{ in_array('women', $categories) ? 'selected' : '' }}>Women</option>
+                <option value="kids" {{ in_array('kids', $categories) ? 'selected' : '' }}>Kids</option>
+                <option value="shoes" {{ in_array('shoes', $categories) ? 'selected' : '' }}>Shoes</option>
+                <option value="clothing" {{ in_array('clothing', $categories) ? 'selected' : '' }}>Clothing</option>
+                <option value="sport" {{ in_array('sport', $categories) ? 'selected' : '' }}>Sport</option>
+            </select>
+        
+            <!-- Brand -->
+            <label for="brand">Brand</label>
+            <input type="text" name="brand" value="{{ $product->brand }}" required>
+        
+            <!-- Price -->
             <label for="price">Price</label>
             <input type="number" name="price" value="{{ $product->price }}" step="0.01" required>
-
+        
+            <!-- Sizes -->
             <label for="sizes">Sizes</label>
             <select name="sizes[]" multiple required>
-                <option value="S" {{ in_array('S', $product->sizes ?? []) ? 'selected' : '' }}>Small</option>
-                <option value="M" {{ in_array('M', $product->sizes ?? []) ? 'selected' : '' }}>Medium</option>
-                <option value="L" {{ in_array('L', $product->sizes ?? []) ? 'selected' : '' }}>Large</option>
-                <option value="XL" {{ in_array('XL', $product->sizes ?? []) ? 'selected' : '' }}>Extra Large</option>
+                <option value="S" {{ in_array('S', $product->sizes ? json_decode($product->sizes) : []) ? 'selected' : '' }}>Small</option>
+                <option value="M" {{ in_array('M', $product->sizes ? json_decode($product->sizes) : []) ? 'selected' : '' }}>Medium</option>
+                <option value="L" {{ in_array('L', $product->sizes ? json_decode($product->sizes) : []) ? 'selected' : '' }}>Large</option>
+                <option value="XL" {{ in_array('XL', $product->sizes ? json_decode($product->sizes) : []) ? 'selected' : '' }}>Extra Large</option>
             </select>
-
+        
+            <!-- Main Image -->
             <label for="image">Image (Leave blank if no change)</label>
             <input type="file" name="image">
             <div class="image-preview">
                 <img src="{{ asset('storage/'.$product->image) }}" alt="Current Image">
             </div>
-
+        
+            <!-- Additional Images -->
             <label for="images">Additional Images</label>
             <input type="file" name="images[]" multiple>
             <div class="image-preview">
-                @foreach($product->images as $image)
+                @foreach(json_decode($product->images) as $image)
                     <img src="{{ asset('storage/'.$image) }}" alt="Additional Image">
                 @endforeach
             </div>
-
+        
+            <!-- Quantity -->
             <label for="qty">Quantity</label>
             <input type="number" name="qty" value="{{ $product->qty }}" required>
-
+        
+            <!-- Description -->
             <label for="description">Description</label>
             <textarea name="description">{{ $product->description }}</textarea>
-
+        
             <button type="submit">Update Product</button>
         </form>
+        
     </div>
 </body>
 </html>

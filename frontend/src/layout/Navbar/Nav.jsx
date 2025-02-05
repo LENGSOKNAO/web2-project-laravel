@@ -948,7 +948,7 @@ const Nav = () => {
       {/* screen md */}
       <div className="hidden md:hidden lg:block">
         <div className="flex-between px-[100px] py-[20px] ">
-          <Link className="">
+          <Link to="/" className="">
             <img className="w-[120px]" src="/src/assets/logo.png" alt="" />
           </Link>
           <div className="z-50">
@@ -957,7 +957,7 @@ const Nav = () => {
                 onMouseEnter={() => setNike(true)}
                 onMouseLeave={() => setNike(false)}
               >
-                <Link to='nike'>Nike</Link>
+                <Link to="/nike">Nike</Link>
                 {nike && (
                   <div
                     data-aos="zoom-in-down"

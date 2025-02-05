@@ -134,7 +134,19 @@
 
             <!-- Category -->
             <label for="category">Category</label>
-            <input type="text" name="category" value="{{ old('category') }}" required>
+            <select name="category[]" multiple required>
+                <option value="men" {{ in_array('men', old('category', [])) ? 'selected' : '' }}>Men</option>
+                <option value="women" {{ in_array('women', old('category', [])) ? 'selected' : '' }}>Women</option>
+                <option value="kids" {{ in_array('kids', old('category', [])) ? 'selected' : '' }}>Kids</option>
+                <option value="shoes" {{ in_array('shoes', old('category', [])) ? 'selected' : '' }}>Shoes</option>
+                <option value="clothing" {{ in_array('clothing', old('category', [])) ? 'selected' : '' }}>Clothing</option>
+                <option value="sport" {{ in_array('sport', old('category', [])) ? 'selected' : '' }}>Sport</option>
+            </select>
+            
+
+            <!-- brand -->
+            <label for="brand">brand</label>
+            <input type="text" name="brand" value="{{ old('brand') }}" required>
 
             <!-- Price -->
             <label for="price">Price</label>

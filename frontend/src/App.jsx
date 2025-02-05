@@ -3,7 +3,7 @@ import Home from "./screen/Home";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Nike from "./screen/page/Nike";
+import HomeNike from "./screen/page/HomeNike";
 
 function App() {
   useEffect(() => {
@@ -13,7 +13,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/nike" element={<Nike />} />
+      <Route path="/nike" element={<HomeNike />} />
     </Routes>
   );
 }

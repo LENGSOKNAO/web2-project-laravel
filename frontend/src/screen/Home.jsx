@@ -6,6 +6,7 @@ import BannerProduct from "../components/Home/BannerProduct";
 
 const Home = () => {
   return (
+ 
     <Layout>
       <Banner />
       <Brand />
